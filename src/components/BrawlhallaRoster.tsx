@@ -669,8 +669,8 @@ const BrawlhallaRoster = () => {
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    // check if you win if at least two legends are revealed
-    const isWin = score.filter((legend) => legend.isRevealed).length >= 2;
+    // check if you win 
+    const isWin = score.every((legend) => legend.isRevealed);
     if (isWin) {
       setIsWin(true);
       pause();
