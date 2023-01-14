@@ -1,12 +1,11 @@
 import Image from "next/image";
-import React, { FormEvent, useState } from "react";
+import type { FormEvent} from "react";
+import React, { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import styles from "./BrawlhallaRoster.module.css";
 import {
   FacebookIcon,
   FacebookShareButton,
-  InstapaperIcon,
-  InstapaperShareButton,
   RedditIcon,
   RedditShareButton,
   TelegramIcon,
@@ -16,6 +15,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { useRouter } from "next/router";
 
 const legends = [
   {
@@ -647,6 +647,7 @@ const legends = [
 ];
 
 const BrawlhallaRoster = () => {
+  const router = useRouter();
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
     autoStart: false,
   });
@@ -669,7 +670,7 @@ const BrawlhallaRoster = () => {
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    // check if you win 
+    // check if you win
     const isWin = score.every((legend) => legend.isRevealed);
     if (isWin) {
       setIsWin(true);
@@ -703,7 +704,8 @@ const BrawlhallaRoster = () => {
     }
     setSearch("");
   }
-  const shareUrl = window.location.href;
+  const shareUrl = process.env.NEXT_PUBLIC_VERCEL_URL ?? "https://https://brawlyholly-46xk.vercel.app/";
+  console.log(shareUrl)
   const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
     "en-US",
     {
