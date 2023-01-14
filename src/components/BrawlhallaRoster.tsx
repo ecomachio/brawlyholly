@@ -821,7 +821,7 @@ const BrawlhallaRoster = () => {
         </div>
       ) : (
         <>
-          <div className="sticky top-8 flex flex-col shadow-sm">
+          <div className="sticky top-8 flex flex-col shadow-sm w-72">
             {isRunning && (
               <div className="rounded-full px-12 py-2 text-center text-white">
                 <span className="text-5xl">
