@@ -1,5 +1,5 @@
-import Image from "next/image";
-import type { FormEvent } from "react";
+import { default as NextImage } from "next/image";
+import { FormEvent, useEffect } from "react";
 import React, { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import styles from "./BrawlhallaRoster.module.css";
@@ -647,11 +647,9 @@ const legends = [
 ];
 
 const BrawlhallaRoster = () => {
-  // const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
-  //   autoStart: false,
-  // });
-  const minutes = 0;
-  const seconds = 0;
+  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
+    autoStart: false,
+  });
   const [shareTitle, setShareTitle] = useState("");
   const [search, setSearch] = useState("");
   const [isWin, setIsWin] = useState(false);
@@ -664,6 +662,23 @@ const BrawlhallaRoster = () => {
       }))
   );
 
+  // force download all images that are not crossover
+  // useEffect(() => {
+  //   legends
+  //     .filter((legend) => !legend.crossover)
+  //     .forEach((legend) => {
+  //       console.log(legend.image);
+  //       <NextImage
+  //         priority
+  //         className="h-full w-full rounded-br-3xl rounded-tl-3xl"
+  //         src={legend.image}
+  //         alt={legend.name}
+  //         width={70}
+  //         height={70}
+  //       />;
+  //     });
+  // }, []);
+
   function isRevealed(name: string): boolean {
     const foundLegend = score.find((legend) => legend.name === name);
     return foundLegend?.isRevealed || false;
@@ -672,7 +687,6 @@ const BrawlhallaRoster = () => {
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    // check if you win
     const isWin = score.every((legend) => legend.isRevealed);
     if (isWin) {
       const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
@@ -687,12 +701,12 @@ const BrawlhallaRoster = () => {
       })}! Can you beat my time?`;
       setShareTitle(title);
       setIsWin(true);
-      //pause();
+      pause();
     }
 
-    // if (!isRunning) {
-    //   start();
-    // }
+    if (!isRunning) {
+      start();
+    }
 
     const foundLegend = legends.find((legend) =>
       legend.name.toLowerCase().includes(search.toLowerCase())
@@ -723,7 +737,7 @@ const BrawlhallaRoster = () => {
     <>
       {isWin ? (
         <div className="flex h-full w-full flex-col items-center justify-center p-6 text-white transition-all duration-500 ease-in-out">
-          <Image
+          <NextImage
             src="https://static.wikia.nocookie.net/brawlhalla_gamepedia/images/1/1c/Banner_Rank_Valhallan.png/revision/latest?cb=20220928135053"
             width={150}
             height={150}
@@ -803,7 +817,7 @@ const BrawlhallaRoster = () => {
                 />
               </form>
             </div>
-            {/* {isRunning && (
+            {isRunning && (
               <div className="w-10 rounded-full px-12 text-center text-white">
                 <span className="text-5xl">
                   {minutes.toLocaleString("en-US", {
@@ -817,26 +831,37 @@ const BrawlhallaRoster = () => {
                   })}
                 </span>
               </div>
-            )} */}
+            )}
           </div>
           <div className="grid grid-cols-4 gap-2 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12">
-            {legends.map((character, index) => (
-              <div key={index} className=" h-full w-full">
-                {isRevealed(character.name) ? (
-                  <div className={styles.bounce}>
-                    <Image
-                      className="h-full w-full rounded-br-3xl rounded-tl-3xl"
-                      src={character.image}
-                      alt={character.name}
-                      width={70}
-                      height={70}
-                    />
-                  </div>
-                ) : (
-                  <div className="character-image bg-gray-500"></div>
-                )}
-              </div>
-            ))}
+            {legends
+              .filter((legend) => !legend.crossover)
+              .map((character, index) => (
+                <div key={index} className=" h-full w-full">
+                  <NextImage
+                    priority
+                    className="hidden"
+                    src={character.image}
+                    alt={character.name}
+                    width={70}
+                    height={70}
+                  />
+                  {isRevealed(character.name) ? (
+                    <div className={styles.bounce}>
+                      <NextImage
+                        priority
+                        className="h-full w-full rounded-br-3xl rounded-tl-3xl"
+                        src={character.image}
+                        alt={character.name}
+                        width={70}
+                        height={70}
+                      />
+                    </div>
+                  ) : (
+                    <div className="character-image bg-gray-500"></div>
+                  )}
+                </div>
+              ))}
           </div>
         </>
       )}
