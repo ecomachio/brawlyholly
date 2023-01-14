@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { FormEvent} from "react";
+import type { FormEvent } from "react";
 import React, { useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import styles from "./BrawlhallaRoster.module.css";
@@ -647,10 +647,10 @@ const legends = [
 ];
 
 const BrawlhallaRoster = () => {
-  const router = useRouter();
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
     autoStart: false,
   });
+  const [shareTitle, setShareTitle] = useState("");
   const [search, setSearch] = useState("");
   const [isWin, setIsWin] = useState(false);
   const [score, setScore] = useState(
@@ -673,6 +673,17 @@ const BrawlhallaRoster = () => {
     // check if you win
     const isWin = score.every((legend) => legend.isRevealed);
     if (isWin) {
+      const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
+        "en-US",
+        {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        }
+      )}:${seconds.toLocaleString("en-US", {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      })}! Can you beat my time?`;
+      setShareTitle(title);
       setIsWin(true);
       pause();
     }
@@ -704,18 +715,7 @@ const BrawlhallaRoster = () => {
     }
     setSearch("");
   }
-  const shareUrl = process.env.NEXT_PUBLIC_VERCEL_URL ?? "https://https://brawlyholly-46xk.vercel.app/";
-  console.log(shareUrl)
-  const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
-    "en-US",
-    {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    }
-  )}:${seconds.toLocaleString("en-US", {
-    minimumIntegerDigits: 2,
-    useGrouping: false,
-  })}! Can you beat my time?`;
+  const shareUrl = "https://https://brawlyholly-46xk.vercel.app/";
 
   return (
     <>
@@ -748,14 +748,14 @@ const BrawlhallaRoster = () => {
             <div className="flex items-center justify-center gap-4 p-8">
               <TwitterShareButton
                 url={shareUrl}
-                title={title}
+                title={shareTitle}
                 className="Demo__some-network__share-button"
               >
                 <TwitterIcon size={64} round />
               </TwitterShareButton>
               <WhatsappShareButton
                 url={shareUrl}
-                title={title}
+                title={shareTitle}
                 separator=":: "
                 className="Demo__some-network__share-button"
               >
@@ -763,21 +763,21 @@ const BrawlhallaRoster = () => {
               </WhatsappShareButton>
               <FacebookShareButton
                 url={shareUrl}
-                title={title}
+                title={shareTitle}
                 className="Demo__some-network__share-button"
               >
                 <FacebookIcon size={64} round />
               </FacebookShareButton>
               <RedditShareButton
                 url={shareUrl}
-                title={title}
+                title={shareTitle}
                 className="Demo__some-network__share-button"
               >
                 <RedditIcon size={64} round />
               </RedditShareButton>
               <TelegramShareButton
                 url={shareUrl}
-                title={title}
+                title={shareTitle}
                 className="Demo__some-network__share-button"
               >
                 <TelegramIcon size={64} round />
@@ -817,7 +817,7 @@ const BrawlhallaRoster = () => {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-4 gap-2 transition-height duration-1000 ease-in-out md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12">
+          <div className="grid grid-cols-4 gap-2 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12">
             {legends.map((character, index) => (
               <div key={index} className=" h-full w-full">
                 {isRevealed(character.name) ? (
