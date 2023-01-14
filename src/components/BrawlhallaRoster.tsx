@@ -639,7 +639,7 @@ const BrawlhallaRoster = () => {
       <div className="grid grid-cols-4 gap-2 transition-height duration-1000 ease-in-out md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12">
         {legends.map((character, index) => (
           <div key={index} className=" h-full w-full">
-            {!isRevealed(character.name) ? (
+            {isRevealed(character.name) ? (
               <div className={styles.bounce}>
                 <Image
                   className="h-full w-full rounded-br-3xl rounded-tl-3xl"
