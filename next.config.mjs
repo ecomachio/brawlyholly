@@ -21,6 +21,12 @@ const config = {
         port: "",
         pathname: "/c/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "static.wikia.nocookie.net",
+        port: "",
+        pathname: "/brawlhalla_gamepedia/**",
+      },
     ],
   },
 };

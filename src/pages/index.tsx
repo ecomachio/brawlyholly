@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 
 import BrawlhallaRoster from "../components/BrawlhallaRoster";
 
@@ -12,7 +13,22 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-0 py-16 ">
+        <div className="container flex h-screen flex-col items-center gap-2 px-0 py-12 ">
+          <Image
+            src="https://www.brawlhalla.com/c/uploads/2019/09/Logo_BrawlhallaText640.png"
+            alt="Brawlhalla Logo"
+            width={500}
+            height={500}
+            sizes="(min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) 640px, 100vw"
+          />
+          <h1
+            className="astro-OCOLV5DS py-4 text-center text-2xl font-bold tracking-tight
+            text-white sm:text-3xl  md:text-4xl"
+          >
+            <span className="astro-OCOLV5DS whitespace-nowrap text-[hsl(240,100%,70%)]">
+              Roster Challenge
+            </span>
+          </h1>
           <BrawlhallaRoster />
         </div>
       </main>
