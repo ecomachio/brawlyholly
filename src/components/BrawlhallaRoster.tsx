@@ -842,7 +842,7 @@ const BrawlhallaRoster = () => {
                 <input
                   type="text"
                   className="form-input focus:shadow-outline-blue block w-full rounded-md border border-gray-300 bg-white py-3 px-4 leading-5 text-gray-900 placeholder-gray-500 transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none"
-                  placeholder="Min 5 characters"
+                  placeholder="try a legend name"
                   value={search}
                   onChange={(event) => {
                     setSearch(event.target.value);
