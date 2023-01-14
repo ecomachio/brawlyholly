@@ -13,5 +13,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.brawlhalla.com",
+        port: "",
+        pathname: "/c/uploads/**",
+      },
+    ],
+  },
 };
 export default config;
