@@ -732,10 +732,6 @@ const BrawlhallaRoster = () => {
       });
     }
 
-    const isWin = score.some((legend) => legend.isRevealed);
-    if (isWin) {
-    }
-
     setSearch("");
   }
   const shareUrl = "https://https://brawlyholly-46xk.vercel.app/";
