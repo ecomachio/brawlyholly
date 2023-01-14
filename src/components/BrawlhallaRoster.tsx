@@ -687,23 +687,6 @@ const BrawlhallaRoster = () => {
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    const isWin = score.every((legend) => legend.isRevealed);
-    if (isWin) {
-      const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
-        "en-US",
-        {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        }
-      )}:${seconds.toLocaleString("en-US", {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-      })}! Can you beat my time?`;
-      setShareTitle(title);
-      setIsWin(true);
-      pause();
-    }
-
     if (!isRunning) {
       start();
     }
@@ -721,14 +704,37 @@ const BrawlhallaRoster = () => {
     }
 
     if (foundLegend) {
-      setScore(
-        score.map((legend) =>
+      setScore((score) => {
+        console.log(score)
+        score = score.map((legend) =>
           legend.name === foundLegend.name
             ? { ...legend, isRevealed: true }
             : legend
-        )
-      );
+        );
+
+        setIsWin(score.every((legend) => legend.isRevealed));
+
+        return score;
+      });
     }
+
+    const isWin = score.some((legend) => legend.isRevealed);
+    if (isWin) {
+      const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
+        "en-US",
+        {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        }
+      )}:${seconds.toLocaleString("en-US", {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      })}! Can you beat my time?`;
+      setShareTitle(title);
+      setIsWin(true);
+      pause();
+    }
+
     setSearch("");
   }
   const shareUrl = "https://https://brawlyholly-46xk.vercel.app/";
@@ -799,6 +805,21 @@ const BrawlhallaRoster = () => {
                 <TelegramIcon size={64} round />
               </TelegramShareButton>
             </div>
+            <button
+              className="rounded-md bg-blue-500 p-4 text-2xl font-bold shadow-md hover:bg-blue-600"
+              onClick={() => {
+                setIsWin(false);
+                setScore(
+                  legends.map((legend) => ({
+                    name: legend.name,
+                    isRevealed: false,
+                  }))
+                );
+                reset();
+              }}
+            >
+              Play Again
+            </button>
           </div>
         </div>
       ) : (
