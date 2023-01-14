@@ -647,9 +647,11 @@ const legends = [
 ];
 
 const BrawlhallaRoster = () => {
-  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
-    autoStart: false,
-  });
+  // const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
+  //   autoStart: false,
+  // });
+  const minutes = 0;
+  const seconds = 0;
   const [shareTitle, setShareTitle] = useState("");
   const [search, setSearch] = useState("");
   const [isWin, setIsWin] = useState(false);
@@ -685,12 +687,12 @@ const BrawlhallaRoster = () => {
       })}! Can you beat my time?`;
       setShareTitle(title);
       setIsWin(true);
-      pause();
+      //pause();
     }
 
-    if (!isRunning) {
-      start();
-    }
+    // if (!isRunning) {
+    //   start();
+    // }
 
     const foundLegend = legends.find((legend) =>
       legend.name.toLowerCase().includes(search.toLowerCase())
@@ -801,7 +803,7 @@ const BrawlhallaRoster = () => {
                 />
               </form>
             </div>
-            {isRunning && (
+            {/* {isRunning && (
               <div className="w-10 rounded-full px-12 text-center text-white">
                 <span className="text-5xl">
                   {minutes.toLocaleString("en-US", {
@@ -815,7 +817,7 @@ const BrawlhallaRoster = () => {
                   })}
                 </span>
               </div>
-            )}
+            )} */}
           </div>
           <div className="grid grid-cols-4 gap-2 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12">
             {legends.map((character, index) => (
