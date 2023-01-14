@@ -705,34 +705,35 @@ const BrawlhallaRoster = () => {
 
     if (foundLegend) {
       setScore((score) => {
-        console.log(score)
+        console.log(score);
         score = score.map((legend) =>
           legend.name === foundLegend.name
             ? { ...legend, isRevealed: true }
             : legend
         );
 
-        setIsWin(score.every((legend) => legend.isRevealed));
-
+        const isWin = score.every((legend) => legend.isRevealed);
+        if (isWin) {
+          const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
+            "en-US",
+            {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            }
+          )}:${seconds.toLocaleString("en-US", {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}! Can you beat my time?`;
+          setShareTitle(title);
+          setIsWin(true);
+          pause();
+        }
         return score;
       });
     }
 
     const isWin = score.some((legend) => legend.isRevealed);
     if (isWin) {
-      const title = `I finished Brawlhalla Roster in ${minutes.toLocaleString(
-        "en-US",
-        {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        }
-      )}:${seconds.toLocaleString("en-US", {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-      })}! Can you beat my time?`;
-      setShareTitle(title);
-      setIsWin(true);
-      pause();
     }
 
     setSearch("");
@@ -824,22 +825,9 @@ const BrawlhallaRoster = () => {
         </div>
       ) : (
         <>
-          <div className="sticky top-8 flex shadow-sm">
-            <div className="rounded-md">
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  className="form-input focus:shadow-outline-blue block w-full rounded-md border border-gray-300 bg-white py-3 px-4 leading-5 text-gray-900 placeholder-gray-500 transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none"
-                  placeholder="Search..."
-                  value={search}
-                  onChange={(event) => {
-                    setSearch(event.target.value);
-                  }}
-                />
-              </form>
-            </div>
+          <div className="sticky top-8 flex flex-col shadow-sm">
             {isRunning && (
-              <div className="w-10 rounded-full px-12 text-center text-white">
+              <div className="rounded-full px-12 py-2 text-center text-white">
                 <span className="text-5xl">
                   {minutes.toLocaleString("en-US", {
                     minimumIntegerDigits: 2,
@@ -853,6 +841,19 @@ const BrawlhallaRoster = () => {
                 </span>
               </div>
             )}
+            <div className="rounded-md">
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  className="form-input focus:shadow-outline-blue block w-full rounded-md border border-gray-300 bg-white py-3 px-4 leading-5 text-gray-900 placeholder-gray-500 transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none"
+                  placeholder="Min 5 characters"
+                  value={search}
+                  onChange={(event) => {
+                    setSearch(event.target.value);
+                  }}
+                />
+              </form>
+            </div>
           </div>
           <div className="grid grid-cols-4 gap-2 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12">
             {legends
